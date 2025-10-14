@@ -90,7 +90,7 @@ jobs:
           LINCS_DEV_FORCE_NVCC: "true"
           LINCS_DEV_FORCE_CHRONES: "true"
       - name: Make the wheel machine-independent
-        run: auditwheel repair --plat manylinux_2_34_x86_64 --strip local-dist/*.whl --wheel-dir dist
+        run: auditwheel repair --plat manylinux_2_35_x86_64 --strip local-dist/*.whl --wheel-dir dist
       - name: Check the wheel
         run: twine check dist/*.whl
 
