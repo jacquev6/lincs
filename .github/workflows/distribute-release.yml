@@ -1,8 +1,13 @@
-name: Distribute release
+name: Distribute (pre-)release
+run-name: Distribute ${{ github.ref_name }}
 on:
   push:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+
+      # Pre-releases: same as releases, but not tagged as 'latest' on Docker Hub
+      - v[0-9]+.[0-9]+.[0-9]+a[0-9]+
+      - v[0-9]+.[0-9]+.[0-9]+b[0-9]+
+      - v[0-9]+.[0-9]+.[0-9]+rc[0-9]+
 jobs:
   build-and-check:
     uses: ./.github/workflows/build-and-check.yml
@@ -41,6 +46,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build-and-check
+    env:
+      IS_FINAL_RELEASE: ${{ !contains(github.ref_name, 'a') && !contains(github.ref_name, 'b') && !contains(github.ref_name, 'rc') }}
     steps:
       - name: Get the code (just for the Dockerfile)
         uses: actions/checkout@v4
@@ -51,9 +58,11 @@ jobs:
           path: docker
       - name: Build the Docker image
         run: docker build --pull --no-cache --build-arg lincs_version=$(echo ${{ github.ref_name }} | sed 's/^v//') --tag jacquev6/lincs:$(echo ${{ github.ref_name }} | sed 's/^v//') docker
-      - run: docker tag jacquev6/lincs:$(echo ${{ github.ref_name }} | sed 's/^v//') jacquev6/lincs:latest
+      - if: env.IS_FINAL_RELEASE == 'true'
+        run: docker tag jacquev6/lincs:$(echo ${{ github.ref_name }} | sed 's/^v//') jacquev6/lincs:latest
       - name: Login into Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD_JACQUEV6 }}" | docker login -u jacquev6 --password-stdin
       - name: Push the Docker image
         run: docker push jacquev6/lincs:$(echo ${{ github.ref_name }} | sed 's/^v//')
-      - run: docker push jacquev6/lincs:latest
+      - if: env.IS_FINAL_RELEASE == 'true'
+        run: docker push jacquev6/lincs:latest
