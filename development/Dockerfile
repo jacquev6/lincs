@@ -34,12 +34,12 @@ FROM downloader AS download-get-pip
 
 RUN set -x \
  && wget https://bootstrap.pypa.io/pip/3.8/get-pip.py -O get-pip-3.8.py \
- && wget https://bootstrap.pypa.io/get-pip.py -O get-pip-3.9.py \
- && ln -s get-pip-3.9.py get-pip-3.10.py \
- && ln -s get-pip-3.9.py get-pip-3.11.py \
- && ln -s get-pip-3.9.py get-pip-3.12.py \
- && ln -s get-pip-3.9.py get-pip-3.13.py \
- && ln -s get-pip-3.9.py get-pip-3.14.py \
+ && wget https://bootstrap.pypa.io/pip/3.9/get-pip.py -O get-pip-3.9.py \
+ && wget https://bootstrap.pypa.io/get-pip.py -O get-pip-3.10.py \
+ && ln -s get-pip-3.10.py get-pip-3.11.py \
+ && ln -s get-pip-3.10.py get-pip-3.12.py \
+ && ln -s get-pip-3.10.py get-pip-3.13.py \
+ && ln -s get-pip-3.10.py get-pip-3.14.py \
  && true
 
 FROM downloader AS download-or-tools
