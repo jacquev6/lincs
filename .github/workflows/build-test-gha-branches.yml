@@ -7,4 +7,4 @@ jobs:
   build-and-check:
     uses: ./.github/workflows/build-and-check.yml
     with:
-      python_versions: '["3.8", "3.14"]'
+      python_versions: '["3.8", "3.15"]'
