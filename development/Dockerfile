@@ -40,6 +40,7 @@ RUN set -x \
  && ln -s get-pip-3.10.py get-pip-3.12.py \
  && ln -s get-pip-3.10.py get-pip-3.13.py \
  && ln -s get-pip-3.10.py get-pip-3.14.py \
+ && ln -s get-pip-3.10.py get-pip-3.15.py \
  && true
 
 FROM downloader AS download-or-tools
@@ -86,7 +87,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       sudo
 
 # Python versions
-ENV LINCS_DEV_PYTHON_VERSIONS="3.8 3.9 3.10 3.11 3.12 3.13 3.14"
+ENV LINCS_DEV_PYTHON_VERSIONS="3.8 3.9 3.10 3.11 3.12 3.13 3.14 3.15"
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=bind,from=download-get-pip,source=/download,target=/download \
@@ -99,7 +100,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
  && add-apt-repository ppa:deadsnakes/ppa \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
-      $(for python_version in $non_default_python_versions; do echo python$python_version-dev; echo python$python_version-distutils; echo python$python_version-venv; done | grep -v -e python3.12-distutils -e python3.13-distutils -e python3.14-distutils) \
+      $(for python_version in $non_default_python_versions; do echo python$python_version-dev; echo python$python_version-distutils; echo python$python_version-venv; done | grep -v -e python3.12-distutils -e python3.13-distutils -e python3.14-distutils -e python3.15-distutils) \
  && for python_version in $non_default_python_versions $default_python_version; do python$python_version /download/get-pip-$python_version.py || exit 1; done
 
 # Boost
