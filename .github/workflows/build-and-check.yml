@@ -14,7 +14,7 @@ jobs:
         run: pip3 install build twine
 
       - name: Get the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Build the source distribution
         run: python3 -m build --sdist
@@ -22,7 +22,7 @@ jobs:
         run: twine check dist/*
 
       - name: Upload the source distribution to GitHub Actions artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: source-dist
           path: dist
@@ -36,7 +36,7 @@ jobs:
         python_version: ${{ fromJSON(inputs.python_versions) }}
     steps:
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python_version }}
       - name: Install Python packages
@@ -76,7 +76,7 @@ jobs:
             sudo cp bin/patchelf /usr/local/bin
 
       - name: Download the source distribution from GitHub Actions artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: source-dist
       - name: Unzip the source distribution
@@ -95,7 +95,7 @@ jobs:
         run: twine check dist/*.whl
 
       - name: Upload the wheel to GitHub Actions artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: wheel-dist-${{ matrix.python_version }}-linux
           path: dist
@@ -109,13 +109,13 @@ jobs:
         python_version: ${{ fromJSON(inputs.python_versions) }}
     steps:
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python_version }}
       - name: Install Python packages
         run: pip install build delvewheel twine
       - name: Install CUDA
-        uses: Jimver/cuda-toolkit@v0.2.19
+        uses: Jimver/cuda-toolkit@v0.2.36
         id: cuda-toolkit
         with:
           cuda: '12.4.1'
@@ -157,7 +157,7 @@ jobs:
             cp -r lib/* /d/lincs-deps/lib
 
       - name: Download the source distribution from GitHub Actions artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: source-dist
       - name: Unzip the source distribution
@@ -177,7 +177,7 @@ jobs:
         run: twine check (get-item dist\*.whl)
 
       - name: Upload the wheel to GitHub Actions artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: wheel-dist-${{ matrix.python_version }}-windows
           path: dist
@@ -193,7 +193,7 @@ jobs:
       MACOSX_DEPLOYMENT_TARGET: 12.0
     steps:
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python_version }}
       - name: Install Python packages
@@ -231,7 +231,7 @@ jobs:
             ln -s libortools.9.dylib libortools.dylib
 
       - name: Download the source distribution from GitHub Actions artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: source-dist
       - name: Unzip the source distribution
@@ -247,7 +247,7 @@ jobs:
         run: twine check dist/*.whl
 
       - name: Upload the wheel to GitHub Actions artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: wheel-dist-${{ matrix.python_version }}-macos
           path: dist
@@ -300,13 +300,13 @@ jobs:
             python_version: '3.10'
     steps:
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python_version }}
       # DO NOT install any other dependencies, to test that the wheels are self-contained
 
       - name: Download the wheels from GitHub Actions artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: wheel-dist-${{ matrix.python_version }}-*
           merge-multiple: true
