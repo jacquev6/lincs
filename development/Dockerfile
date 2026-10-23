@@ -33,8 +33,6 @@ RUN set -x \
 FROM downloader AS download-get-pip
 
 RUN set -x \
- && wget https://bootstrap.pypa.io/pip/3.8/get-pip.py -O get-pip-3.8.py \
- && wget https://bootstrap.pypa.io/pip/3.9/get-pip.py -O get-pip-3.9.py \
  && wget https://bootstrap.pypa.io/get-pip.py -O get-pip-3.10.py \
  && ln -s get-pip-3.10.py get-pip-3.11.py \
  && ln -s get-pip-3.10.py get-pip-3.12.py \
@@ -87,7 +85,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       sudo
 
 # Python versions
-ENV LINCS_DEV_PYTHON_VERSIONS="3.8 3.9 3.10 3.11 3.12 3.13 3.14 3.15"
+ENV LINCS_DEV_PYTHON_VERSIONS="3.10 3.11 3.12 3.13 3.14 3.15"
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=bind,from=download-get-pip,source=/download,target=/download \
@@ -179,7 +177,7 @@ USER user
 RUN mkdir -p /home/user/.local/bin
 ENV PATH=/home/user/.local/bin:$PATH:/usr/local/cuda-12.4/bin
 
-# Make sure /home/user/.local/lib/python3.8/site-packages is in sys.path
+# Make sure /home/user/.local/lib/python3.10/site-packages is in sys.path
 # (useful for development/cycle.py, where 'pip install --user lincs' is run just before 'import lincs')
 RUN pip3 install --user noop
 

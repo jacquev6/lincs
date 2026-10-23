@@ -12,7 +12,7 @@ jobs:
   build-and-check:
     uses: ./.github/workflows/build-and-check.yml
     with:
-      python_versions: '["3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]'
+      python_versions: '["3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]'
 
   publish-on-pypi:
     runs-on: ubuntu-latest

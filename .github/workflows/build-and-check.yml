@@ -274,24 +274,7 @@ jobs:
           - macos-26-intel
         python_version: ${{ fromJSON(inputs.python_versions) }}
         exclude:
-          # 'actions/setup-python' doesn't provide these Python versions for Ubuntu 26.04
-          - os: ubuntu-26.04
-            python_version: '3.8'
-          - os: ubuntu-26.04
-            python_version: '3.9'
           # Older Python versions don't build 'universal2' wheels, so they can't run on the M1 runners
-          - os: macos-14
-            python_version: '3.8'
-          - os: macos-15
-            python_version: '3.8'
-          - os: macos-26
-            python_version: '3.8'
-          - os: macos-14
-            python_version: '3.9'
-          - os: macos-15
-            python_version: '3.9'
-          - os: macos-26
-            python_version: '3.9'
           - os: macos-14
             python_version: '3.10'
           - os: macos-15
