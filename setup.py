@@ -296,6 +296,7 @@ setuptools.setup(
     url="https://github.com/MICS-Lab/lincs",
     author="Vincent Jacques",
     author_email="vincent@vincent-jacques.net",
+    python_requires=">=3.10",
     install_requires=install_requires,
     packages=setuptools.find_namespace_packages(),
     include_package_data=True,
