@@ -264,15 +264,22 @@ jobs:
         os:
           - ubuntu-22.04
           - ubuntu-24.04
+          - ubuntu-26.04
           - windows-2022
           - windows-2025
           - macos-14
           - macos-15
           - macos-15-intel
           - macos-26
+          - macos-26-intel
         python_version: ${{ fromJSON(inputs.python_versions) }}
         exclude:
-          # Older Python versions don't build 'universal2' wheels, so they can't run on the M1 runner that run macOS 14 and 15
+          # 'actions/setup-python' doesn't provide these Python versions for Ubuntu 26.04
+          - os: ubuntu-26.04
+            python_version: '3.8'
+          - os: ubuntu-26.04
+            python_version: '3.9'
+          # Older Python versions don't build 'universal2' wheels, so they can't run on the M1 runners
           - os: macos-14
             python_version: '3.8'
           - os: macos-15
